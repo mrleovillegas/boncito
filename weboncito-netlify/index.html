@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weboncito — Crea tu web, pe</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rojo: #E63946;
+  --amarillo: #FFD60A;
+  --verde: #2DC653;
+  --negro: #0A0A0A;
+  --g1: #141414;
+  --g2: #1E1E1E;
+  --g3: #2A2A2A;
+  --blanco: #FFFBF5;
+  --muted: #666;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Plus Jakarta Sans',sans-serif; background:var(--negro); color:var(--blanco); min-height:100vh; overflow-x:hidden; }
+
+/* NAV */
+header {
+  position:sticky; top:0; z-index:100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1.2rem 2.5rem;
+  background:rgba(10,10,10,0.92); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--g3);
+}
+.logo { font-family:'Syne',sans-serif; font-weight:900; font-size:1.6rem; letter-spacing:-1px; }
+.logo .on { color:var(--rojo); }
+.logo .dot { color:var(--amarillo); }
+.pills { display:flex; gap:0.5rem; }
+.pill { background:var(--g2); border:1px solid var(--g3); padding:5px 12px; border-radius:20px; font-size:0.72rem; color:var(--muted); }
+.pill-hot { background:linear-gradient(135deg,#E63946,#FF6B35); border:none; color:white; font-weight:600; }
+
+/* HERO */
+.hero { text-align:center; padding:5rem 2rem 3rem; }
+.hero-tag { display:inline-flex; align-items:center; gap:0.5rem; background:var(--g2); border:1px solid var(--g3); padding:6px 16px; border-radius:20px; font-size:0.8rem; color:var(--amarillo); font-weight:600; margin-bottom:1.5rem; }
+.hero h1 { font-family:'Syne',sans-serif; font-size:clamp(2.5rem,6vw,5rem); font-weight:900; line-height:1; letter-spacing:-3px; margin-bottom:1rem; }
+.hero h1 .r { color:var(--rojo); }
+.hero h1 .y { color:var(--amarillo); }
+.hero p { color:var(--muted); font-size:1rem; max-width:460px; margin:0 auto 2.5rem; line-height:1.6; }
+
+/* STEPS */
+.steps { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:0.3rem; margin-bottom:3.5rem; }
+.step { display:flex; align-items:center; gap:0.4rem; font-size:0.78rem; color:var(--muted); }
+.step-n { width:20px; height:20px; background:var(--g2); border:1px solid var(--g3); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:700; color:var(--rojo); }
+.arr { color:#333; margin:0 0.5rem; }
+
+/* FORM */
+.form-wrap { max-width:680px; margin:0 auto 4rem; padding:0 1.5rem; }
+.form-card { background:var(--g1); border:1px solid var(--g3); border-radius:24px; overflow:hidden; }
+.fsec { padding:1.6rem 2rem; border-bottom:1px solid var(--g3); }
+.fsec:last-child { border-bottom:none; }
+.sec-title { font-family:'Syne',sans-serif; font-size:0.82rem; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:0.4rem; display:flex; align-items:center; gap:0.5rem; }
+.sec-hint { font-size:0.75rem; color:#444; margin-bottom:1rem; line-height:1.5; }
+.row2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
+@media(max-width:560px){ .row2,.row3 { grid-template-columns:1fr; } }
+.field { display:flex; flex-direction:column; gap:0.35rem; margin-bottom:0.9rem; }
+.field:last-child { margin-bottom:0; }
+label { font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; color:#555; }
+input,select,textarea {
+  background:var(--g2); border:1px solid var(--g3); border-radius:10px;
+  padding:0.75rem 1rem; color:var(--blanco);
+  font-family:'Plus Jakarta Sans',sans-serif; font-size:0.88rem;
+  outline:none; transition:border-color 0.2s, box-shadow 0.2s; width:100%;
+}
+input::placeholder,textarea::placeholder { color:#444; }
+input:focus,select:focus,textarea:focus { border-color:var(--rojo); box-shadow:0 0 0 3px rgba(230,57,70,0.1); }
+select option { background:var(--g2); }
+
+/* SERVICIOS */
+#servicios-list { display:flex; flex-direction:column; gap:0.6rem; }
+.svc-row {
+  display:grid; grid-template-columns:1fr auto auto; gap:0.5rem; align-items:center;
+  background:var(--g2); border:1px solid var(--g3); border-radius:12px; padding:0.65rem 0.8rem;
+  transition:border-color 0.2s;
+}
+.svc-row:focus-within { border-color:var(--g3); }
+.svc-input { background:transparent; border:none; color:var(--blanco); font-size:0.88rem; font-family:'Plus Jakarta Sans',sans-serif; padding:0; width:100%; }
+.svc-input:focus { outline:none; }
+.svc-input::placeholder { color:#444; }
+.svc-img-btn {
+  width:34px; height:34px; background:var(--g3); border:none; border-radius:8px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+  font-size:0.9rem; transition:background 0.2s; flex-shrink:0; position:relative; overflow:hidden;
+  title:'Subir foto opcional';
+}
+.svc-img-btn:hover { background:#333; }
+.svc-img-btn.has { background:var(--rojo); }
+.svc-img-btn input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.svc-del { width:28px; height:28px; background:transparent; border:1px solid var(--g3); border-radius:6px; cursor:pointer; color:var(--muted); font-size:0.75rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.15s; }
+.svc-del:hover { border-color:var(--rojo); color:var(--rojo); background:rgba(230,57,70,0.05); }
+.btn-add-svc {
+  display:flex; align-items:center; gap:0.5rem;
+  background:transparent; border:1px dashed var(--g3); border-radius:10px;
+  padding:0.65rem 1rem; color:var(--muted); font-size:0.82rem; font-family:'Plus Jakarta Sans',sans-serif;
+  cursor:pointer; width:100%; transition:all 0.2s; margin-top:0.4rem;
+}
+.btn-add-svc:hover { border-color:var(--rojo); color:var(--rojo); background:rgba(230,57,70,0.03); }
+
+/* HERO SLOT */
+.hero-slot {
+  border:2px dashed var(--g3); border-radius:14px; overflow:hidden;
+  cursor:pointer; transition:border-color 0.2s, background 0.2s;
+  min-height:120px; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:0.4rem; text-align:center; padding:1.5rem;
+  position:relative;
+}
+.hero-slot:hover { border-color:var(--rojo); background:rgba(230,57,70,0.04); }
+.hero-slot.has-img { border-style:solid; border-color:var(--g3); padding:0; }
+.hero-slot input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.hero-preview { width:100%; height:120px; object-fit:cover; border-radius:12px; display:none; }
+.hero-slot.has-img .hero-preview { display:block; }
+.hero-slot.has-img .slot-ph { display:none; }
+.slot-ph { pointer-events:none; }
+.slot-icon { font-size:1.5rem; }
+.slot-lbl { font-size:0.78rem; color:var(--muted); font-weight:500; }
+.slot-sub { font-size:0.65rem; color:#444; }
+.slot-rm { position:absolute; top:7px; right:7px; background:rgba(0,0,0,0.75); border:none; color:white; border-radius:50%; width:22px; height:22px; font-size:0.65rem; cursor:pointer; display:none; align-items:center; justify-content:center; z-index:5; }
+.hero-slot.has-img .slot-rm { display:flex; }
+
+/* GALERÍA */
+.gal-drop {
+  border:2px dashed var(--g3); border-radius:14px; padding:1.6rem;
+  text-align:center; cursor:pointer; transition:all 0.2s; position:relative;
+}
+.gal-drop:hover,.gal-drop.drag { border-color:var(--rojo); background:rgba(230,57,70,0.04); }
+.gal-drop input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.gal-drop-icon { font-size:1.8rem; margin-bottom:0.3rem; }
+.gal-drop-lbl { font-size:0.85rem; color:var(--muted); font-weight:500; }
+.gal-drop-sub { font-size:0.7rem; color:#444; margin-top:0.2rem; }
+.gal-thumbs { display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.8rem; }
+.gal-thumb { position:relative; width:58px; height:58px; border-radius:8px; overflow:hidden; }
+.gal-thumb img { width:100%; height:100%; object-fit:cover; }
+.gal-thumb-rm { position:absolute; top:2px; right:2px; background:rgba(0,0,0,0.75); border:none; color:white; border-radius:50%; width:16px; height:16px; font-size:0.55rem; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+
+/* BTN GENERAR */
+.btn-gen {
+  width:100%; padding:1rem; background:var(--rojo); color:white; border:none;
+  border-radius:14px; font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800;
+  cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center;
+  gap:0.6rem; box-shadow:0 4px 30px rgba(230,57,70,0.3); letter-spacing:-0.3px;
+}
+.btn-gen:hover { background:#c0303b; transform:translateY(-2px); box-shadow:0 8px 40px rgba(230,57,70,0.4); }
+.btn-gen:disabled { background:#333; box-shadow:none; transform:none; cursor:not-allowed; }
+
+/* LOADING */
+#loading { display:none; position:fixed; inset:0; z-index:999; background:rgba(10,10,10,0.97); backdrop-filter:blur(10px); flex-direction:column; align-items:center; justify-content:center; gap:1.5rem; }
+#loading.on { display:flex; }
+.ld-logo { font-family:'Syne',sans-serif; font-size:2.2rem; font-weight:900; letter-spacing:-1px; animation:pulse 1.5s ease infinite; }
+.ld-logo .r{color:var(--rojo);} .ld-logo .y{color:var(--amarillo);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.ld-bar-wrap { width:260px; background:var(--g2); border-radius:10px; height:3px; overflow:hidden; }
+.ld-bar { height:100%; background:linear-gradient(90deg,var(--rojo),var(--amarillo)); border-radius:10px; width:0; transition:width 0.4s ease; }
+.ld-msg { font-size:0.85rem; color:var(--muted); min-height:1.4rem; }
+.ld-emojis { display:flex; gap:0.8rem; font-size:1.5rem; }
+.ld-emojis span { animation:bounce 0.7s ease infinite; }
+.ld-emojis span:nth-child(2){animation-delay:0.15s}
+.ld-emojis span:nth-child(3){animation-delay:0.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* PREVIEW */
+#preview-sec { display:none; max-width:1100px; margin:0 auto 4rem; padding:0 2rem; animation:fadeUp 0.5s ease; }
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+.prev-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:1rem; }
+.prev-title { font-family:'Syne',sans-serif; font-size:1.2rem; font-weight:800; }
+.prev-title span { color:var(--verde); }
+.btn-edit { padding:0.5rem 1.2rem; border-radius:8px; background:transparent; border:1px solid var(--g3); color:var(--blanco); font-size:0.82rem; font-weight:500; cursor:pointer; transition:all 0.15s; }
+.btn-edit:hover { background:var(--g2); border-color:#444; }
+.browser { background:var(--g1); border:1px solid var(--g3); border-radius:14px 14px 0 0; padding:0.7rem 1rem; display:flex; align-items:center; gap:0.4rem; }
+.dot { width:10px; height:10px; border-radius:50%; }
+.dot.r{background:#ff5f57} .dot.y{background:#febc2e} .dot.g{background:#28c840}
+.url-bar { flex:1; margin-left:0.6rem; background:#111; border-radius:5px; padding:4px 12px; font-size:0.72rem; color:#555; }
+#prev-frame { width:100%; height:620px; border:1px solid var(--g3); border-top:none; border-radius:0 0 14px 14px; background:white; }
+
+/* CTA */
+.cta-wrap { margin-top:2rem; }
+.cta-label { text-align:center; font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:1.2rem; }
+.cta-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+@media(max-width:600px){ .cta-grid{grid-template-columns:1fr} }
+.cta-card { background:var(--g1); border:1px solid var(--g3); border-radius:20px; padding:1.8rem; position:relative; transition:transform 0.2s; }
+.cta-card:hover{transform:translateY(-3px)}
+.cta-basico{border-color:var(--rojo);box-shadow:0 0 30px rgba(230,57,70,0.08)}
+.cta-pro{border-color:var(--amarillo);box-shadow:0 0 30px rgba(255,214,10,0.08)}
+.cta-tag { position:absolute; top:-11px; left:1.3rem; font-size:0.6rem; font-weight:700; padding:3px 10px; border-radius:20px; text-transform:uppercase; letter-spacing:0.5px; }
+.tag-b{background:var(--rojo);color:white}
+.tag-p{background:var(--amarillo);color:var(--negro)}
+.cta-icon{font-size:1.8rem;margin-bottom:0.7rem}
+.cta-card h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;margin-bottom:0.4rem}
+.cta-desc{color:var(--muted);font-size:0.82rem;margin-bottom:1rem;line-height:1.5}
+.cta-feats{list-style:none;margin-bottom:1.2rem;display:flex;flex-direction:column;gap:0.35rem}
+.cta-feats li{font-size:0.82rem;color:#bbb}
+.cta-price{margin-bottom:1rem;display:flex;align-items:baseline;gap:0.3rem}
+.p-main{font-family:'Syne',sans-serif;font-size:2rem;font-weight:900}
+.p-main.y{color:var(--amarillo)}
+.p-per{font-size:0.75rem;color:var(--muted)}
+.btn-cta{width:100%;padding:0.85rem;border-radius:11px;border:none;font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.15s;margin-bottom:0.5rem}
+.btn-b{background:var(--rojo);color:white;box-shadow:0 4px 20px rgba(230,57,70,0.3)}
+.btn-b:hover{background:#c0303b;transform:translateY(-1px)}
+.btn-p{background:var(--amarillo);color:var(--negro);box-shadow:0 4px 20px rgba(255,214,10,0.2)}
+.btn-p:hover{background:#f0c800;transform:translateY(-1px)}
+.cta-fine{font-size:0.68rem;color:#444;text-align:center}
+
+/* TOAST */
+.toast{position:fixed;top:1.5rem;left:50%;transform:translateX(-50%);background:#1a0505;border:1px solid var(--rojo);color:#ff9a9a;padding:0.8rem 1.5rem;border-radius:10px;font-size:0.85rem;z-index:9999;max-width:90vw;text-align:center;animation:fadeUp 0.3s ease;}
+
+footer{text-align:center;padding:2rem;color:#333;font-size:0.78rem;border-top:1px solid #1a1a1a}
+footer b{color:var(--rojo)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">web<span class="on">on</span>cito<span class="dot">.</span></div>
+  <div class="pills">
+    <span class="pill">🇵🇪 Hecho en Perú</span>
+    <span class="pill pill-hot">✨ IA</span>
+  </div>
+</header>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="ld-emojis"><span>🎨</span><span>⚡</span><span>🇵🇪</span></div>
+  <div class="ld-logo">web<span class="r">on</span>cito<span class="y">.</span></div>
+  <div class="ld-bar-wrap"><div class="ld-bar" id="ld-bar"></div></div>
+  <div class="ld-msg" id="ld-msg">Analizando tu negocio...</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">⚡ Tu web en 30 segundos</div>
+  <h1>Tu negocio,<br><span class="r">online</span> al <span class="y">toque</span></h1>
+  <p>Sin coders, sin vueltas. Llena el formulario, sube tus fotos y la IA arma tu web profesional.</p>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div>Tu negocio</div>
+    <div class="arr">→</div>
+    <div class="step"><div class="step-n">2</div>Tus fotos</div>
+    <div class="arr">→</div>
+    <div class="step"><div class="step-n">3</div>¡Web lista!</div>
+  </div>
+</section>
+
+<!-- FORM -->
+<div class="form-wrap">
+<div class="form-card">
+
+  <!-- DATOS -->
+  <div class="fsec">
+    <div class="sec-title"><span>🏪</span> Tu negocio</div>
+    <div class="row2" style="margin-bottom:0.9rem">
+      <div class="field" style="margin-bottom:0">
+        <label>¿Cómo se llama? *</label>
+        <input type="text" id="nombre" placeholder="Ej: Pollería El Gordo"/>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>¿A qué se dedica? *</label>
+        <select id="rubro">
+          <option value="">Selecciona el rubro...</option>
+          <option>Restaurante / Pollería</option>
+          <option>Cevichería / Mariscos</option>
+          <option>Panadería / Pastelería</option>
+          <option>Salón de belleza / Spa</option>
+          <option>Barbería</option>
+          <option>Gimnasio / Fitness</option>
+          <option>Consultorio médico</option>
+          <option>Consultorio dental</option>
+          <option>Tienda de ropa</option>
+          <option>Ferretería</option>
+          <option>Academia / Cursos</option>
+          <option>Abogado / Estudio</option>
+          <option>Contabilidad</option>
+          <option>Delivery / Fast food</option>
+          <option>Otro</option>
+        </select>
+      </div>
+    </div>
+    <div class="row3">
+      <div class="field" style="margin-bottom:0">
+        <label>WhatsApp de contacto</label>
+        <input type="text" id="telefono" placeholder="+51 999 888 777"/>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>¿Dónde está?</label>
+        <input type="text" id="ciudad" placeholder="Miraflores, Lima"/>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Color de tu marca</label>
+        <select id="color">
+          <option value="rojo">🔴 Rojo</option>
+          <option value="naranja">🟠 Naranja</option>
+          <option value="azul">🔵 Azul</option>
+          <option value="verde">🟢 Verde</option>
+          <option value="morado">🟣 Morado</option>
+          <option value="negro">⚫ Negro</option>
+          <option value="rosado">🩷 Rosado</option>
+          <option value="dorado">🟡 Dorado</option>
+        </select>
+      </div>
+    </div>
+    <div class="field" style="margin-top:0.9rem;margin-bottom:0">
+      <label>Dirección (opcional)</label>
+      <input type="text" id="direccion" placeholder="Ej: Av. Benavides 1234, Miraflores"/>
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <div class="fsec">
+    <div class="sec-title"><span>🍽️</span> Tus productos o servicios *</div>
+    <p class="sec-hint">Escribe cada uno por separado. El botón 📷 te deja subir una foto para cada producto — es opcional pero hace tu web mucho más atractiva.</p>
+    <div id="servicios-list"></div>
+    <button class="btn-add-svc" onclick="addServicio()">＋ Agregar otro producto o servicio</button>
+  </div>
+
+  <!-- FOTO PORTADA -->
+  <div class="fsec">
+    <div class="sec-title"><span>🖼️</span> Foto de portada</div>
+    <p class="sec-hint">La imagen que aparece grande al abrir tu web. Recomendamos una foto de tu local o tu producto estrella.</p>
+    <div class="hero-slot" id="hero-slot">
+      <input type="file" id="hero-file" accept="image/*" onchange="setHero(this)"/>
+      <button class="slot-rm" onclick="removeHero(event)">✕</button>
+      <img class="hero-preview" id="hero-prev"/>
+      <div class="slot-ph">
+        <div class="slot-icon">📸</div>
+        <div class="slot-lbl">Sube tu mejor foto</div>
+        <div class="slot-sub">JPG o PNG · Mínimo 1000px de ancho</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALERÍA -->
+  <div class="fsec">
+    <div class="sec-title"><span>🎞️</span> Galería de fotos</div>
+    <p class="sec-hint">Estas fotos desfilan automáticamente en tu web. Selecciona varias a la vez o arrástralas aquí.</p>
+    <div class="gal-drop" id="gal-drop">
+      <input type="file" id="gal-file" accept="image/*" multiple onchange="addGaleria(this)"/>
+      <div class="gal-drop-icon">🖼️</div>
+      <div class="gal-drop-lbl">Haz clic o arrastra tus fotos</div>
+      <div class="gal-drop-sub">Puedes seleccionar varias a la vez</div>
+    </div>
+    <div class="gal-thumbs" id="gal-thumbs"></div>
+  </div>
+
+  <!-- GENERAR -->
+  <div class="fsec">
+    <button class="btn-gen" id="btn-gen" onclick="generarWeb()">⚡ Crear mi web gratis</button>
+    <p style="text-align:center;font-size:0.72rem;color:#444;margin-top:0.7rem">Tarda entre 20 y 40 segundos · Completamente gratis</p>
+  </div>
+
+</div>
+</div>
+
+<!-- PREVIEW -->
+<div id="preview-sec">
+  <div class="prev-top">
+    <div class="prev-title">🎉 ¡Tu web está <span>lista, causa!</span></div>
+    <button class="btn-edit" onclick="scrollToForm()">✏️ Cambiar algo</button>
+  </div>
+  <div class="browser">
+    <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+    <div class="url-bar" id="url-bar">weboncito.com/tu-negocio</div>
+  </div>
+  <iframe id="prev-frame"></iframe>
+
+  <div class="cta-wrap">
+    <div class="cta-label">¿Qué hacemos ahora?</div>
+    <div class="cta-grid">
+
+      <div class="cta-card cta-basico">
+        <div class="cta-tag tag-b">MÁS POPULAR</div>
+        <div class="cta-icon">🚀</div>
+        <h3>Publicar esta web</h3>
+        <p class="cta-desc">La subimos hoy mismo y queda online con dominio propio y todo incluido por un año.</p>
+        <ul class="cta-feats">
+          <li>✅ Tu web subida y funcionando</li>
+          <li>✅ Hosting 1 año (Banahosting)</li>
+          <li>✅ Dominio .com o .com.pe</li>
+          <li>✅ Correo corporativo</li>
+          <li>✅ Soporte directo por WhatsApp</li>
+        </ul>
+        <div class="cta-price">
+          <span class="p-main">S/ 220</span>
+          <span class="p-per">/ año · todo incluido</span>
+        </div>
+        <button class="btn-cta btn-b" onclick="irAPagar()">💳 Quiero publicarla — S/ 220</button>
+        <div class="cta-fine">Pago seguro · Tarjeta, Yape o transferencia</div>
+      </div>
+
+      <div class="cta-card cta-pro">
+        <div class="cta-tag tag-p">PARA CRECER MÁS</div>
+        <div class="cta-icon">⭐</div>
+        <h3>Quiero algo más pro</h3>
+        <p class="cta-desc">Un diseñador real crea tu web desde cero, a tu medida y con más impacto.</p>
+        <ul class="cta-feats">
+          <li>🎨 Diseño único, nada genérico</li>
+          <li>👨‍💻 Diseñador dedicado a tu proyecto</li>
+          <li>✨ Animaciones y efectos premium</li>
+          <li>🔍 SEO para aparecer en Google</li>
+          <li>🤝 Soporte humano incluido</li>
+          <li>♾️ Cambios ilimitados hasta que quede perfecto</li>
+        </ul>
+        <div class="cta-price">
+          <span class="p-main y">$300</span>
+          <span class="p-per">USD · pago único</span>
+        </div>
+        <button class="btn-cta btn-p" onclick="irAWebPro()">✨ Ver Web Pro — $300 USD</button>
+        <div class="cta-fine">Sin compromiso · Hablamos primero</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>Hecho con ❤️ en Lima, Perú · <b>weboncito.com</b> · Todos los derechos reservados</footer>
+
+<script>
+// ======= API KEY (pruebas) =======
+// API key guardada segura en Netlify (variable de entorno)
+
+// ======= ESTADO =======
+const imageData = { hero: null, svc: {}, gal: [] };
+let svcCount = 0;
+
+// ======= SERVICIOS =======
+function addServicio(nombre='') {
+  svcCount++;
+  const id = svcCount;
+  const el = document.createElement('div');
+  el.className = 'svc-row';
+  el.id = `svc-row-${id}`;
+  el.innerHTML = `
+    <input class="svc-input" type="text" placeholder="Ej: Pollo a la brasa" value="${nombre}" id="svc-name-${id}"/>
+    <button class="svc-img-btn" id="svc-btn-${id}" title="Foto opcional para este producto">
+      📷<input type="file" accept="image/*" onchange="setSvcImg(this,${id})"/>
+    </button>
+    <button class="svc-del" onclick="delServicio(${id})" title="Quitar">✕</button>
+  `;
+  document.getElementById('servicios-list').appendChild(el);
+}
+
+function delServicio(id) {
+  document.getElementById(`svc-row-${id}`)?.remove();
+  delete imageData.svc[id];
+}
+
+function setSvcImg(input, id) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    imageData.svc[id] = e.target.result;
+    const btn = document.getElementById(`svc-btn-${id}`);
+    if (btn) { btn.classList.add('has'); btn.childNodes[0].textContent = '✅'; }
+  };
+  reader.readAsDataURL(file);
+}
+
+addServicio(); addServicio(); addServicio();
+
+// ======= HERO IMG =======
+function setHero(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    imageData.hero = e.target.result;
+    document.getElementById('hero-prev').src = e.target.result;
+    document.getElementById('hero-slot').classList.add('has-img');
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeHero(e) {
+  e.stopPropagation();
+  imageData.hero = null;
+  document.getElementById('hero-prev').src = '';
+  document.getElementById('hero-slot').classList.remove('has-img');
+  document.getElementById('hero-file').value = '';
+}
+
+// ======= GALERÍA =======
+function addGaleria(input) {
+  Array.from(input.files).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = e => { imageData.gal.push(e.target.result); renderGalThumbs(); };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+function removeGal(idx) {
+  imageData.gal.splice(idx, 1);
+  renderGalThumbs();
+}
+
+function renderGalThumbs() {
+  document.getElementById('gal-thumbs').innerHTML = imageData.gal.map((b64, i) => `
+    <div class="gal-thumb">
+      <img src="${b64}"/>
+      <button class="gal-thumb-rm" onclick="removeGal(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+const galDrop = document.getElementById('gal-drop');
+galDrop.addEventListener('dragover', e => { e.preventDefault(); galDrop.classList.add('drag'); });
+galDrop.addEventListener('dragleave', () => galDrop.classList.remove('drag'));
+galDrop.addEventListener('drop', e => {
+  e.preventDefault(); galDrop.classList.remove('drag');
+  Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')).forEach(file => {
+    const reader = new FileReader();
+    reader.onload = ev => { imageData.gal.push(ev.target.result); renderGalThumbs(); };
+    reader.readAsDataURL(file);
+  });
+});
+
+// ======= PALETAS =======
+const palettes = {
+  rojo:    {p:'#E63946',s:'#FF6B35',bg:'#0f0202',accent:'#FFD60A'},
+  naranja: {p:'#F77F00',s:'#FCBF49',bg:'#0f0800',accent:'#E63946'},
+  azul:    {p:'#1D4ED8',s:'#3B82F6',bg:'#020510',accent:'#06B6D4'},
+  verde:   {p:'#15803D',s:'#22C55E',bg:'#020f05',accent:'#84CC16'},
+  morado:  {p:'#7C3AED',s:'#A855F7',bg:'#05020f',accent:'#EC4899'},
+  negro:   {p:'#111827',s:'#374151',bg:'#000000',accent:'#F59E0B'},
+  rosado:  {p:'#BE185D',s:'#EC4899',bg:'#0f0208',accent:'#F472B6'},
+  dorado:  {p:'#B45309',s:'#F59E0B',bg:'#0a0700',accent:'#D97706'},
+};
+
+// ======= LOADING =======
+const msgs = [
+  'Analizando tu negocio... 🤔',
+  'Eligiendo los colores perfectos... 🎨',
+  'Escribiendo los textos con IA... ✍️',
+  'Armando el header y el hero... 🏗️',
+  'Creando las cards de servicios... 🍽️',
+  'Colocando tus fotos... 📸',
+  'Agregando el toque peruano... 🇵🇪',
+  '¡Casi lista, causa! 🔥',
+];
+let ldTimer;
+
+function startLoading() {
+  document.getElementById('loading').classList.add('on');
+  const bar = document.getElementById('ld-bar');
+  const msg = document.getElementById('ld-msg');
+  let pct=0, mi=0;
+  msg.textContent = msgs[0];
+  ldTimer = setInterval(()=>{
+    pct = Math.min(pct + Math.random()*6+2, 90);
+    bar.style.width = pct+'%';
+    const newMi = Math.min(Math.floor(pct/(90/msgs.length)), msgs.length-1);
+    if(newMi > mi){ mi=newMi; msg.textContent=msgs[mi]; }
+  }, 450);
+}
+
+function stopLoading() {
+  clearInterval(ldTimer);
+  document.getElementById('ld-bar').style.width='100%';
+  setTimeout(()=>{
+    document.getElementById('loading').classList.remove('on');
+    document.getElementById('ld-bar').style.width='0';
+  }, 500);
+}
+
+// ======= TOAST =======
+function toast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = '⚠️ ' + msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 5000);
+}
+
+// ======= GENERAR =======
+async function generarWeb() {
+  const nombre   = document.getElementById('nombre').value.trim();
+  const rubro    = document.getElementById('rubro').value;
+  const colorKey = document.getElementById('color').value;
+  const telefono = document.getElementById('telefono').value.trim();
+  const ciudad   = document.getElementById('ciudad').value.trim();
+  const direccion= document.getElementById('direccion').value.trim();
+
+  // Recoger servicios
+  const servicios = [];
+  document.querySelectorAll('.svc-row').forEach(row => {
+    const inp = row.querySelector('.svc-input');
+    if (inp?.value.trim()) {
+      const id = parseInt(row.id.replace('svc-row-',''));
+      servicios.push({ nombre: inp.value.trim(), tieneImg: !!imageData.svc[id], id });
+    }
+  });
+
+  if (!nombre)             { toast('¿Cómo se llama tu negocio?'); return; }
+  if (!rubro)              { toast('Selecciona el rubro de tu negocio'); return; }
+  if (!servicios.length)   { toast('Agrega al menos un producto o servicio'); return; }
+
+  document.getElementById('btn-gen').disabled = true;
+  startLoading();
+
+  const c = palettes[colorKey];
+  const waNum = (telefono||'51999000000').replace(/\D/g,'');
+  const waMsg = encodeURIComponent(`Hola ${nombre}, quiero información 😊`);
+
+  const heroInstr = imageData.hero
+    ? `HERO FONDO: coloca <img src="__IMG_HERO__" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0"> dentro del hero. Agrega un div overlay rgba(0,0,0,0.52) en z-index:1. El contenido del hero en z-index:2.`
+    : `HERO FONDO: gradiente oscuro vibrante con los colores primary y secondary de la paleta.`;
+
+  const svcInstr = servicios.map((s,i) =>
+    s.tieneImg
+      ? `- Card ${i+1}: "${s.nombre}" → <img src="__IMG_SVC_${i+1}__" style="width:100%;height:200px;object-fit:cover;border-radius:12px 12px 0 0;display:block">`
+      : `- Card ${i+1}: "${s.nombre}" → emoji grande y relevante como ícono visual`
+  ).join('\n');
+
+  const galInstr = imageData.gal.length > 0
+    ? `GALERÍA MARQUEE: usa ${imageData.gal.length} imágenes con src __IMG_GAL_1__ ... __IMG_GAL_${imageData.gal.length}__. Duplícalas en el HTML para loop infinito.`
+    : `GALERÍA MARQUEE: sin fotos. Tarjetas coloridas animadas con frases motivacionales del negocio.`;
+
+  const prompt = `Eres un diseñador web senior experto en negocios peruanos. Crea una landing page HTML de alta calidad, con estilo oscuro premium y sabor peruano.
+
+DATOS DEL NEGOCIO:
+- Nombre: ${nombre}
+- Rubro: ${rubro}
+- Ciudad: ${ciudad||'Lima, Perú'}
+- WhatsApp: +${waNum}
+${direccion ? `- Dirección: ${direccion}` : ''}
+- Paleta: primary=${c.p}, secondary=${c.s}, bg=${c.bg}, accent=${c.accent}
+
+IMÁGENES — usa EXACTAMENTE estos placeholders en los atributos src, sin modificarlos:
+${heroInstr}
+
+CARDS DE SERVICIOS (${servicios.length} total):
+${svcInstr}
+
+${galInstr}
+
+SECCIONES OBLIGATORIAS (inclúyelas TODAS, en este orden exacto):
+
+1. HEADER fijo (position:fixed, top:0, z-index:100):
+   - Fondo: rgba del color bg con backdrop-filter blur(20px)
+   - Logo: nombre "${nombre}" en fuente Syne bold a la izquierda
+   - Derecha: botón WhatsApp verde pequeño
+
+2. HERO (min-height:100vh, display:flex, align:center):
+   - ${imageData.hero ? 'Imagen __IMG_HERO__ de fondo con overlay oscuro' : 'Gradiente dramático con los colores de la paleta'}
+   - Título: nombre "${nombre}" en Syne, font-size mínimo 3.5rem, bold
+   - Subtítulo: rubro + ciudad en tono motivador peruano
+   - 2 botones CTA: uno de WhatsApp (verde) y uno "Ver servicios" (borde)
+   - Padding-top: 100px para no tapar con el header fijo
+
+3. SERVICIOS (id="servicios"):
+   - Título de sección llamativo
+   - Grid responsive de ${servicios.length} cards (2 columnas en desktop, 1 en móvil)
+   - Cada card: imagen arriba o emoji grande, nombre del producto en bold, descripción de 1 línea inventada
+   - Hover: transform scale(1.03) + box-shadow
+
+4. GALERÍA MARQUEE:
+   - Fondo ligeramente diferente al bg principal
+   - Título breve (ej: "Nuestro trabajo")
+   - Contenedor overflow:hidden con franja deslizante
+   - CSS animation: translateX(0) → translateX(-50%) infinita, 20s linear
+   - Duplicar el contenido para loop perfecto sin saltos
+
+5. POR QUÉ ELEGIRNOS:
+   - 3 cards o bloques con emoji grande (2rem+), título corto, descripción de 2 líneas
+   - Inventa razones relevantes al rubro ${rubro}
+
+6. CONTACTO:
+   - Datos: WhatsApp (+${waNum}), ciudad${direccion?', dirección':''}
+   - Botón grande de WhatsApp
+   - Fondo con ligero contraste
+
+7. FOOTER:
+   - Texto: © ${new Date().getFullYear()} ${nombre} · Hecho con weboncito.com
+   - Fondo muy oscuro, centrado
+
+8. BOTÓN FLOTANTE WhatsApp:
+   - position:fixed, bottom:24px, right:24px, z-index:999
+   - Círculo verde #25D366, 56px x 56px, box-shadow suave
+   - Emoji 📱 o SVG de WhatsApp adentro
+
+CSS REQUERIDO:
+- @import Google Fonts: Syne (900,800,700) + DM Sans (300,400,500,600)
+- Variables CSS: --primary, --secondary, --bg, --accent, --text
+- Fondo body: ${c.bg}
+- Color texto: #FFFBF5
+- Cards: fondo ligeramente más claro que bg, border 1px solid rgba(255,255,255,0.07), border-radius:16px
+- Animaciones: fadeIn suave (opacity 0→1, translateY 20px→0) al cargar
+- 100% responsive con media queries (breakpoint 768px)
+- Scrollbar personalizado o hidden en el marquee
+
+WhatsApp URL completa: https://wa.me/${waNum}?text=${waMsg}
+
+RESPONDE ÚNICAMENTE CON EL CÓDIGO HTML COMPLETO. Sin texto antes ni después, sin markdown, sin backticks. La primera línea debe ser exactamente: <!DOCTYPE html>`;
+
+  try {
+    const res = await fetch('/.netlify/functions/generar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 8000,
+        messages: [{ role:'user', content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok || data.error) { stopLoading(); toast(data.error?.message || `Error ${res.status}`); return; }
+    if (!data.content?.length) { stopLoading(); toast('La IA no respondió. Intenta de nuevo.'); return; }
+
+    let html = data.content.map(b => b.text||'').join('');
+    html = html.replace(/```html/gi,'').replace(/```/g,'').trim();
+    if (html.length < 500) { stopLoading(); toast('La web salió incompleta. Intenta de nuevo.'); return; }
+
+    html = inyectarImagenes(html, servicios);
+    stopLoading();
+    mostrarPreview(html, nombre);
+
+  } catch(err) {
+    stopLoading();
+    toast(err.message || 'Error de conexión. Revisa tu internet e intenta de nuevo.');
+  } finally {
+    document.getElementById('btn-gen').disabled = false;
+  }
+}
+
+// ======= INYECTAR IMÁGENES =======
+function inyectarImagenes(html, servicios) {
+  if (imageData.hero) html = html.replace(/__IMG_HERO__/g, imageData.hero);
+  servicios.forEach((s, i) => {
+    if (s.tieneImg && imageData.svc[s.id])
+      html = html.replace(new RegExp(`__IMG_SVC_${i+1}__`,'g'), imageData.svc[s.id]);
+  });
+  imageData.gal.forEach((b64, i) => {
+    html = html.replace(new RegExp(`__IMG_GAL_${i+1}__`,'g'), b64);
+  });
+  return html;
+}
+
+// ======= PREVIEW =======
+let generatedHTML = '';
+
+function mostrarPreview(html, nombre) {
+  generatedHTML = html;
+  const slug = nombre.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  document.getElementById('url-bar').textContent = `weboncito.com/${slug}`;
+  const sec = document.getElementById('preview-sec');
+  sec.style.display = 'block';
+  const doc = document.getElementById('prev-frame').contentDocument;
+  doc.open(); doc.write(html); doc.close();
+  sec.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ======= CTAs =======
+function irAPagar() {
+  const nombre = document.getElementById('nombre').value || 'mi negocio';
+  const msg = encodeURIComponent(`Hola! Quiero publicar la web de "${nombre}" — Plan básico S/ 220/año 🚀`);
+  window.open(`https://wa.me/51999000000?text=${msg}`, '_blank');
+}
+
+function irAWebPro() {
+  window.open('webpro.html', '_blank');
+}
+
+function scrollToForm() {
+  document.querySelector('.form-wrap').scrollIntoView({ behavior:'smooth' });
+}
+</script>
+</body>
+</html>
