@@ -1,7 +1,27 @@
 exports.handler = async (event) => {
-  // Solo aceptar POST
+  // 1. Configurar los encabezados de CORS permitidos
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS'
+  };
+
+  // 2. Manejar la petición de prueba (OPTIONS) del navegador
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
+  // 3. Bloquear si no es POST
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+    return { 
+      statusCode: 405, 
+      headers,
+      body: 'Method Not Allowed' 
+    };
   }
 
   const API_KEY = process.env.ANTHROPIC_API_KEY;
@@ -23,16 +43,14 @@ exports.handler = async (event) => {
 
     return {
       statusCode: response.status,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
+      headers, // Asegurarte de incluir los headers aquí también
       body: JSON.stringify(data)
     };
 
   } catch (err) {
     return {
       statusCode: 500,
+      headers,
       body: JSON.stringify({ error: { message: err.message } })
     };
   }
